@@ -1,0 +1,10 @@
+Color Guide
+Ungu: 7286D3
+Hitam: 313131
+Putih placeholder: F5F5F7
+Putih latar: FFFFFF
+Abu border: BDC3C7
+
+GPT API
+'Content-Type': 'application/json',
+'Authorization': 'Bearer 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',
