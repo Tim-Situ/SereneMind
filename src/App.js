@@ -1,0 +1,45 @@
+import { View, Image, Text, StyleSheet } from 'react-native'
+import React from 'react'
+
+export default function App() {
+  return (
+    <View style={styles.root}>
+      <View style={styles.mid}>
+        <Image style={{justifyContent: 'center', alignItems: 'center'}} source={require('../assets/images/Logo.png')}/>
+        <Text style={styles.titleText}>Hai, aku Seren!</Text>
+        <Text style={styles.blackText}>Disini aku akan memenemani</Text>
+        <Text style={{color: '#313131',fontFamily: 'Roboto-Regular',fontSize: 16,}}>menenangkan pikiranmu!</Text>
+        <Image style={{marginTop: 75}} source={require('../assets/images/Tombol.png')}/>
+      </View>
+      <Text style={{bottom: 38,color: '#7286D3', fontSize: 16, fontFamily: 'Roboto-R'}}>Sudah punya akun?</Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  root: {
+    backgroundColor: '#f5f5f7', 
+    flexDirection: 'column', 
+    height: '100%',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    
+  },
+  mid:{
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flex: 1,
+   
+  },
+  titleText: {
+    fontFamily: 'SpaceGrotesk-Bold',
+    fontSize: 32,
+    color: '#7286D3'
+  },
+  blackText: {
+    color: '#313131',
+    fontFamily: 'Roboto-Regular',
+    fontSize: 16,
+    marginTop: 25,
+  }
+});
