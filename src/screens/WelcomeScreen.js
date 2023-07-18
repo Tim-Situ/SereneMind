@@ -29,13 +29,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     
   },
-  absoluteView: {
-    flex: 1,
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent'
-    },
+
   mid:{
     justifyContent: 'center', 
     alignItems: 'center', 
