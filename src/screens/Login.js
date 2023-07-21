@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, {useContext, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -18,8 +19,8 @@ import {BASE_URL} from '../config';
 const Login = () => {
   const navigation = useNavigation();
   const {session} = useContext(AuthContext);
-  const [email, setEmail] = useState('fauzeinmw@gmail.com');
-  const [password, setPassword] = useState('12345678');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const validation = (email, password) => {
     if (email == '' || email == ' ' || password == '' || password == ' ') {
@@ -64,47 +65,49 @@ const Login = () => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20}}>
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <View style={{alignItems: 'center'}}>
-          <Image
-            style={{marginBottom: 15}}
-            source={require('../images/starter-logo.png')}
-          />
-          <Text style={styles.loginTitle}>Hai, login dulu yuk!</Text>
-          <Text style={styles.loginCaption}>
-            Seren akan mendengarkan semua masalah yang kamu hadapi.
-          </Text>
+    <ScrollView automaticallyAdjustKeyboardInsets={true}>
+      <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20}}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={{alignItems: 'center'}}>
+            <Image
+              style={{marginBottom: 15}}
+              source={require('../images/starter-logo.png')}
+            />
+            <Text style={styles.loginTitle}>Hai, login dulu yuk!</Text>
+            <Text style={styles.loginCaption}>
+              Seren akan mendengarkan semua masalah yang kamu hadapi.
+            </Text>
+          </View>
+          <View style={{justifyContent: 'center'}}>
+            <Text style={styles.defaultInputText}>Email</Text>
+            <TextInput
+              style={styles.defaultInput}
+              placeholder="Masukan email"
+              value={email}
+              onChangeText={text => setEmail(text)}
+            />
+            <Text style={styles.defaultInputText}>Password</Text>
+            <TextInput
+              style={styles.defaultInput}
+              placeholder="Masukan password"
+              value={password}
+              onChangeText={text => setPassword(text)}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.btnPrimary}
+            onPress={() => validation(email, password)}>
+            <Text style={{color: '#FFFFFF'}}>Login</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{justifyContent: 'center'}}>
-          <Text style={styles.defaultInputText}>Email</Text>
-          <TextInput
-            style={styles.defaultInput}
-            placeholder="Masukan email"
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-          <Text style={styles.defaultInputText}>Password</Text>
-          <TextInput
-            style={styles.defaultInput}
-            placeholder="Masukan password"
-            value={password}
-            onChangeText={text => setPassword(text)}
-          />
+        <View style={styles.centeredFooter}>
+          <Text style={styles.footerText}>Belum punya akun?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Welcome1')}>
+            <Text style={styles.footerLink}>Daftar disini</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.btnPrimary}
-          onPress={() => validation(email, password)}>
-          <Text style={{color: '#FFFFFF'}}>Login</Text>
-        </TouchableOpacity>
       </View>
-      <View style={styles.centeredFooter}>
-        <Text style={styles.footerText}>Sudah punya akun?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Welcome1')}>
-          <Text style={styles.footerLink}>Daftar disini</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
