@@ -13,8 +13,8 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 
-const Welcome2 = () => {
-  const navigation = useNavigation();
+const Welcome2 = ({navigation}) => {
+
   const [username, setUsername] = useState('');
 
   const goSignUp = () => {
@@ -26,13 +26,13 @@ const Welcome2 = () => {
         },
       ]);
     } else {
-      navigation.navigate('SignUp', {name: username});
+      navigation.navigate('Personalize', {name: username});
     }
   };
 
   return (
     <ScrollView automaticallyAdjustKeyboardInsets={true}>
-      <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20}}>
+      <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20, marginTop: 90}}>
         <StatusBar backgroundColor={'#F5F5F7'} barStyle={'dark-content'} />
         <View style={styles.flexCenter}>
           <Image

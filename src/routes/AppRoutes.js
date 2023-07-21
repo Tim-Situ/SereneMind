@@ -17,6 +17,7 @@ import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import Settings from '../screens/Settings';
 import Help from '../screens/Help';
+import Personalize from '../screens/Personalize';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ const AppRoutes = () => {
             <Stack.Screen name="Welcome1" component={Welcome1} />
             <Stack.Screen name="Welcome2" component={Welcome2} />
             <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Personalize" component={Personalize}/>
             <Stack.Screen name="Login" component={Login} />
           </>
         ) : (

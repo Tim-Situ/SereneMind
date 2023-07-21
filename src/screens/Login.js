@@ -88,6 +88,7 @@ const Login = () => {
             />
             <Text style={styles.defaultInputText}>Password</Text>
             <TextInput
+              secureTextEntry
               style={styles.defaultInput}
               placeholder="Masukan password"
               value={password}
