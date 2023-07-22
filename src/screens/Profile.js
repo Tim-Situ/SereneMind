@@ -14,7 +14,7 @@ const Profile = () => {
   const {logout, userProfile} = useContext(AuthContext);
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
-      <Header title="Profil" btnLeft="enabled" btnRight="disabled" />
+      <Header title="Profil" btnLeft="disabled" btnRight="disabled" />
       <View style={{alignItems: 'center', padding: 20}}>
         <Image
           style={{marginBottom: 20}}
