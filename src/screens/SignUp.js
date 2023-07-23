@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -68,6 +69,7 @@ const SignUp = ({route}) => {
   };
 
   return (
+    <ScrollView>
     <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20}}>
       <View style={{flex: 1, justifyContent: 'center'}}>
         <View style={{alignItems: 'center'}}>
@@ -108,6 +110,7 @@ const SignUp = ({route}) => {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   );
 };
 

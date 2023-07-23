@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbfdff',
     flexDirection: 'row',
     elevation: 2,
+
   },
   bottomNavMenu: {
     flex: 1,

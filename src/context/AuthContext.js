@@ -11,6 +11,7 @@ export const AuthProvider = ({children}) => {
   const [userToken, setUserToken] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
 
+
   const session = async () => {
     try {
       let token = await AsyncStorage.getItem('userToken');
