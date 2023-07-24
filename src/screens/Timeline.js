@@ -49,37 +49,36 @@ const Timeline = () => {
         </View>
        
 
-      <ScrollView style={{backgroundColor: '#d9d9d9',flex: 1}}>
-        
-        {getTimeline.map((data) => (
-          <View>
-            <View style={{marginHorizontal: 25, backgroundColor: 'white', flexDirection: 'row', borderTopRightRadius: 15, borderTopLeftRadius: 15,marginTop: 25}}>
-              <Image
-                    style={styles.image}
-                    source={require('../images/user.png')}
-              />
-              <Text style={{width: 270, padding: 15}}>{data.description}</Text>
-              <TouchableOpacity>
-                <Image style={{width: 25, height: 25, marginTop: 15}} source={require('../images/more.png')} />
-              </TouchableOpacity>
+        <ScrollView style={{backgroundColor: '#d9d9d9',flex: 1}}>
+          
+          {getTimeline.map((data, i) => (
+            <View key={i}>
+              <View style={{marginHorizontal: 25, backgroundColor: 'white', flexDirection: 'row', borderTopRightRadius: 15, borderTopLeftRadius: 15, marginTop: 10}}>
+                <Image
+                      style={styles.image}
+                      source={require('../images/user.png')}
+                />
+                <Text style={{width: 270, padding: 15}}>{data.description}</Text>
+                <TouchableOpacity>
+                  <Image style={{width: 25, height: 25, marginTop: 15}} source={require('../images/more.png')} />
+                </TouchableOpacity>
+              </View>
+              <View style={{marginHorizontal: 25, backgroundColor: 'white', flexDirection: 'row', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, marginBottom: 15}}>
+                <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}}>
+                  <Image style={{marginTop: 2}} source={require('../images/circle-up.png')}/>
+                  <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Dukungan</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}}>
+                  <Image style={{marginTop: 2}} source={require('../images/comment.png')}/>
+                  <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Komen</Text>
+                </TouchableOpacity>
+                  
+              </View>
             </View>
-            <View style={{marginHorizontal: 25, backgroundColor: 'white', flexDirection: 'row', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, marginBottom: 15}}>
-              <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}}>
-                <Image style={{marginTop: 2}} source={require('../images/circle-up.png')}/>
-                <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Dukungan</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}}>
-                <Image style={{marginTop: 2}} source={require('../images/comment.png')}/>
-                <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Komen</Text>
-              </TouchableOpacity>
-                
-            </View>
-          </View>
-         
-        ))}
+          
+          ))}
 
-      </ScrollView>
-      <BottomNav screenName={location} />
+        </ScrollView>
     </View>
           
     

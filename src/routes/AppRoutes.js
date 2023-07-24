@@ -18,7 +18,13 @@ import EditProfile from '../screens/EditProfile';
 import Settings from '../screens/Settings';
 import Help from '../screens/Help';
 import Personalize from '../screens/Personalize';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
+
+
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const AppRoutes = () => {
@@ -41,11 +47,39 @@ const AppRoutes = () => {
           </>
         ) : (
           <>
-            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Master" options={{headerShown: false}}> 
+              {() => (
+                <Tab.Navigator screenOptions={{tabBarHideOnKeyboard: true, headerShown: false}} >
+                  <Tab.Screen name="Home" component={Home} options={() => ({
+                  tabBarIcon: ({focused}) =>
+                    focused ? (
+                      <Icon name="home-variant" size={30} color={'#6a8dff'}/>
+                    ) : (
+                      <Icon name="home-variant" size={30} color={'#bdbdbd'}/>
+                    ),
+                })} />
+                  <Tab.Screen name="Timeline" component={Timeline} options={() => ({
+                  tabBarIcon: ({focused}) =>
+                    focused ? (
+                      <Icon name="forum" size={30} color={'#6a8dff'}/>
+                    ) : (
+                      <Icon name="forum" size={30} color={'#bdbdbd'}/>
+                    ),
+                })} />
+                  <Tab.Screen name="Profile" component={Profile} options={() => ({
+                  tabBarIcon: ({focused}) =>
+                    focused ? (
+                      <Icon name="account" size={30} color={'#6a8dff'}/>
+                    ) : (
+                      <Icon name="account" size={30} color={'#bdbdbd'}/>
+                    ),
+                })}  />
+                </Tab.Navigator>
+              )}
+            </Stack.Screen>
             <Stack.Screen name="VoiceChat" component={VoiceChat} />
             <Stack.Screen name="TextChat" component={TextChat} />
             <Stack.Screen name="History" component={History} />
-            <Stack.Screen name="Timeline" component={Timeline} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Settings" component={Settings} />

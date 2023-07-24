@@ -118,7 +118,6 @@ const Home = () => {
           />
         </ScrollView>
       </View>
-      <BottomNav screenName={location} />
     </View>
   );
 };

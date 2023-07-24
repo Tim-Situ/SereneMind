@@ -53,7 +53,6 @@ const Profile = () => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 1}}></View>
-      <BottomNav screenName={location} />
     </View>
   );
 };
