@@ -1,31 +1,72 @@
-import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity,  RefreshControl} from 'react-native';
 import React, { useEffect, useContext, useState } from 'react';
 import Header from '../components/Header';
-import BottomNav from '../components/BottomNav';
 import axios from 'axios';
-import {AuthContext} from '../context/AuthContext.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const location = 'Timeline';
 
-const Timeline = () => {
+
+const Timeline = ({navigation}) => {
   const [getTimeline, setGettimeline] = useState([])
   const BASE_URL = 'https://serenemind-gateway.ulya.my.id'
+  const [description, setDescription] = useState('')
+  const [refreshing, setRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-      async function fetchTimeline(){
-        try {
-          const res = await axios.get(`${BASE_URL}/all-posts`);
-          console.log(res.data.response);
-          setGettimeline(res.data.response)
-        } catch (error) {
-          console.log(error);
-        }
-      }
 
-      fetchTimeline();
+const PostTimeLine = async () => {
+  let token = await AsyncStorage.getItem('userToken');
 
-  },[])
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  }
+  axios
+      .post(`${BASE_URL}/post`, {
+        description: description
+      },
+      {
+        headers: headers
+      })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err)
+        console.log(token)
+      })
+      .finally(() => setIsLoading(false))
+}
 
+const fetchTimeLine = async() =>{
+    try {
+      const res = await axios.get(`${BASE_URL}/all-posts`);
+      console.log(res.data.response);
+      setGettimeline(res.data.response)
+    } catch (error) {
+      console.log(error);
+    }
+}
+      
+
+useEffect(() => {
+    const unSubscribe = navigation.addListener('focus', () => {
+        fetchTimeLine();
+      });
+
+      PostTimeLine()
+      return unSubscribe;
+
+},[navigation])
+
+   const onRefresh = () => {
+    setRefreshing(true);
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+    fetchTimeLine()
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -35,10 +76,10 @@ const Timeline = () => {
                   style={styles.image}
                   source={require('../images/user.png')}
             />
-            <TextInput multiline style={{width: 250,marginLeft:15}} placeholder='Tulis cerita...'/>  
+            <TextInput value={description} onChangeText={text => setDescription(text)}  multiline style={{width: 190,marginLeft:15, color: 'grey'}} placeholder='Tulis cerita...' placeholderTextColor={'grey'}/>  
             <View style={{justifyContent: 'center'}}>
-              <TouchableOpacity>
-                <Image style={{width: 25, height: 25, marginLeft:25}} source={require('../images/paper-plane.png')} />
+              <TouchableOpacity onPress={() => {description ?  PostTimeLine(description) : ''}}>
+                <Image style={{width: 25, height: 25, marginLeft:0}} source={require('../images/paper-plane.png')} />
               </TouchableOpacity>
             </View>
             
@@ -49,7 +90,9 @@ const Timeline = () => {
         </View>
        
 
-        <ScrollView style={{backgroundColor: '#d9d9d9',flex: 1}}>
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        } style={{backgroundColor: '#d9d9d9',flex: 1}}>
           
           {getTimeline.map((data, i) => (
             <View key={i}>
@@ -58,7 +101,7 @@ const Timeline = () => {
                       style={styles.image}
                       source={require('../images/user.png')}
                 />
-                <Text style={{width: 270, padding: 15}}>{data.description}</Text>
+                <Text style={{width: 190, padding: 15, color: 'grey'}}>{data.description}</Text>
                 <TouchableOpacity>
                   <Image style={{width: 25, height: 25, marginTop: 15}} source={require('../images/more.png')} />
                 </TouchableOpacity>
