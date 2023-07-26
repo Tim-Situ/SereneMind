@@ -6,12 +6,12 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {SimpleGrid} from 'react-native-super-grid';
 
 const Personalize = ({route, navigation}) => {
   const {name} = route.params;
-  const [items, setItems] = React.useState([
+  const [items, setItems] = useState([
     {uri: require('../images/cemas.png')},
     {uri: require('../images/depresi.png')},
     {uri: require('../images/stress.png')},

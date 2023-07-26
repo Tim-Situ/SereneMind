@@ -1,7 +1,7 @@
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState, useCallback, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {GiftedChat, Bubble, Send} from 'react-native-gifted-chat';
+import {GiftedChat, Bubble, Composer, Send} from 'react-native-gifted-chat';
 
 import Header from '../components/Header';
 
@@ -51,15 +51,26 @@ const TextChat = () => {
             />
           );
         }}
-        renderSend={props => {
+        renderComposer={props => {
           return (
-            <Send {...props}>
-              <View style={{marginRight: 10, marginBottom: 5}}>
-                <View style={styles.btnSubmit}>
-                  <Icon name="send" size={20} color={'#ffffff'} />
-                </View>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{justifyContent: 'center'}}>
+                <TouchableOpacity style={{marginLeft: 10}}>
+                  <View
+                    style={[styles.btnSubmit, {backgroundColor: '#ffffff'}]}>
+                    <Icon name="microphone" size={20} color={'#7286D3'} />
+                  </View>
+                </TouchableOpacity>
               </View>
-            </Send>
+              <Composer {...props} />
+              <Send {...props}>
+                <View style={{marginRight: 10}}>
+                  <View style={styles.btnSubmit}>
+                    <Icon name="send" size={20} color={'#ffffff'} />
+                  </View>
+                </View>
+              </Send>
+            </View>
           );
         }}
       />
