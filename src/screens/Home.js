@@ -16,7 +16,6 @@ import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
 
-const location = 'Home';
 const color = [
   '#C0392B',
   '#E74C3C',
@@ -87,7 +86,7 @@ const Home = () => {
             <TouchableOpacity
               style={styles.btnStartTextChat}
               onPress={() => navigation.navigate('TextChat')}>
-              <Text style={{color: '#FFFFFF'}}>Ayo ngobrol!</Text>
+              <Text style={{color: '#FFFFFF'}}>Mulai Obrolan Baru</Text>
             </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>

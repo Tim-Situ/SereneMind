@@ -1,184 +1,112 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import React from 'react';
+import {View, StyleSheet} from 'react-native';
+import React, {useState, useCallback, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {GiftedChat, Bubble, Send} from 'react-native-gifted-chat';
 
 import Header from '../components/Header';
 
 const TextChat = () => {
-  const data = [
-    {
-      role: 'system',
-      content: 'Kamu adalah teman saya',
-    },
-    {
-      role: 'user',
-      content: 'Nama saya adalah Fauzein, umur saya 19 tahun',
-    },
-    {
-      role: 'assistant',
-      content:
-        'Hai Fauzein, senang bertemu denganmu! Bagaimana kabarmu? Ada yang seru terjadi belakangan ini?',
-    },
-    {
-      role: 'user',
-      content: 'berapa umur saya?',
-    },
-    {
-      role: 'assistant',
-      content:
-        'Anda mengatakan bahwa umur Anda adalah 19 tahun. Jadi, jika saya tidak salah, umur Anda adalah 19 tahun. Benar kan?',
-    },
-    {
-      role: 'user',
-      content:
-        'saya sangat hobi ngoding, saya ingin menjadi seorang backend dev handal, saya pernah menggunakan bahasa pemrograman java, c++, python dan PHP. Namun saya sangat suka sekali dengan bahasa pemrograman PHP',
-    },
-    {
-      role: 'assistant',
-      content:
-        'Itu hebat, Fauzein! Sangat menyenangkan melihat minatmu dalam ngoding dan menjadi seorang backend developer handal. Bahasa pemrograman PHP adalah pilihan yang bagus untuk belajar dalam pengembangan web. Untuk meningkatkan keahlianmu dalam PHP, kamu bisa mencoba membangun proyek-proyek kecil, mengikuti tutorial online, atau bahkan bergabung dengan komunitas pengembang PHP untuk berkolaborasi dan belajar bersama. Jangan lupa juga untuk terus mengupdate diri dengan perkembangan terbaru dalam bahasa pemrograman PHP. Semoga sukses dalam perjalananmu menjadi seorang backend developer yang handal! Jika kamu butuh bantuan atau ada yang ingin kamu diskusikan seputar pemrograman, jangan ragu untuk mengajukan pertanyaan kepadaku.',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-    {
-      role: 'user',
-      content: 'Apa bahasa pemrograman kesukaan saya?',
-    },
-  ];
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'Serene',
+        },
+      },
+    ]);
+  }, []);
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
+    );
+  }, []);
 
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
       <Header title="Obrolan Teks" btnLeft="enabled" btnRight="disabled" />
-      <View style={{flex: 1}}>
-        <ScrollView style={{padding: 20}}>
-          {data.length > 1 ? (
-            <View style={{paddingBottom: 20}}>
-              {data.map((item, index) => {
-                if (item.role == 'assistant') {
-                  return (
-                    <View key={index} style={styles.assistantBubble}>
-                      <Text
-                        style={[
-                          styles.bubbleText,
-                          {borderBottomLeftRadius: 0},
-                        ]}>
-                        Assistant Response
-                      </Text>
-                    </View>
-                  );
-                } else if (item.role == 'user') {
-                  return (
-                    <View key={index} style={styles.userBubble}>
-                      <Text
-                        style={[
-                          styles.bubbleText,
-                          {
-                            backgroundColor: '#7286D3',
-                            color: '#ffffff',
-                            borderBottomRightRadius: 0,
-                          },
-                        ]}>
-                        User Response
-                      </Text>
-                    </View>
-                  );
-                }
-              })}
-            </View>
-          ) : (
-            <View></View>
-          )}
-        </ScrollView>
-      </View>
-      <View style={{padding: 20, flexDirection: 'row'}}>
-        <TextInput style={styles.defaultInput} placeholder="Masukan pesan" />
-        <TouchableOpacity style={styles.btnSubmit}>
-          <Icon name="send" size={20} color={'#ffffff'} />
-        </TouchableOpacity>
-      </View>
+      <GiftedChat
+        messages={messages}
+        renderAvatar={() => {}}
+        scrollToBottom={true}
+        alwaysShowSend={true}
+        textInputStyle={styles.defaultInput}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: 1,
+          name: 'Fauzein',
+        }}
+        renderBubble={props => {
+          return (
+            <Bubble
+              {...props}
+              textStyle={styles.bubbleText}
+              wrapperStyle={styles.bubbleWrapper}
+            />
+          );
+        }}
+        renderSend={props => {
+          return (
+            <Send {...props}>
+              <View style={{marginRight: 10, marginBottom: 5}}>
+                <View style={styles.btnSubmit}>
+                  <Icon name="send" size={20} color={'#ffffff'} />
+                </View>
+              </View>
+            </Send>
+          );
+        }}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  assistantBubble: {
-    alignItems: 'flex-start',
-    marginBottom: 15,
-  },
-  userBubble: {
-    alignItems: 'flex-end',
-    marginBottom: 15,
-  },
   bubbleText: {
-    backgroundColor: '#ffffff',
-    width: '80%',
-    fontSize: 16,
-    color: '#313131',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    elevation: 2,
-    borderRadius: 10,
+    left: {
+      color: '#313131',
+    },
+    right: {
+      color: '#ffffff',
+    },
+  },
+  bubbleWrapper: {
+    left: {
+      backgroundColor: '#ffffff',
+      padding: 5,
+      marginBottom: 10,
+      elevation: 2,
+    },
+    right: {
+      backgroundColor: '#7286D3',
+      padding: 5,
+      marginBottom: 10,
+      elevation: 2,
+    },
   },
   defaultInput: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+    color: '#313131',
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     borderRadius: 25,
     marginRight: 15,
     elevation: 2,
     fontSize: 16,
-    color: '#313131',
+    marginBottom: 5,
+    marginTop: 5,
   },
   btnSubmit: {
     backgroundColor: '#7286D3',
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
     elevation: 2,
     justifyContent: 'center',

@@ -6,8 +6,6 @@ import {AuthContext} from '../context/AuthContext';
 
 import Header from '../components/Header';
 
-const location = 'Profile';
-
 const Profile = () => {
   const navigation = useNavigation();
   const {logout, userProfile} = useContext(AuthContext);
