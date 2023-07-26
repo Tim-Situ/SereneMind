@@ -45,11 +45,10 @@ const History = () => {
         },
       })
       .then(res => {
-        console.log(res.data);
         getData();
       })
       .catch(err => {
-        console.log(err);
+        // handle error
       });
   };
 

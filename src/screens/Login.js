@@ -46,7 +46,6 @@ const Login = () => {
         password,
       })
       .then(res => {
-        console.log(res.data);
         AsyncStorage.setItem('userToken', res.data.token);
         session();
       })
