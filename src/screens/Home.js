@@ -15,7 +15,6 @@ import axios from 'axios';
 import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
-import BottomNav from '../components/BottomNav';
 
 const location = 'Home';
 const color = [

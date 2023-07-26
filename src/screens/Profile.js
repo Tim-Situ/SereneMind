@@ -5,7 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 import {AuthContext} from '../context/AuthContext';
 
 import Header from '../components/Header';
-import BottomNav from '../components/BottomNav';
 
 const location = 'Profile';
 
@@ -47,12 +46,10 @@ const Profile = () => {
           <Text style={styles.listMenuText}>Bantuan</Text>
           <Icon name="chevron-right" size={20} color={'#313131'} />
         </TouchableOpacity>
-        <Text>{}</Text>
         <TouchableOpacity style={styles.btnDanger} onPress={() => logout()}>
           <Text style={{color: '#FFFFFF'}}>Log out</Text>
         </TouchableOpacity>
       </View>
-      <View style={{flex: 1}}></View>
     </View>
   );
 };
