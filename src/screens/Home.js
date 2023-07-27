@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  LogBox
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import {SimpleGrid} from 'react-native-super-grid';
@@ -15,9 +16,8 @@ import axios from 'axios';
 import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
-import BottomNav from '../components/BottomNav';
 
-const location = 'Home';
+LogBox.ignoreAllLogs(); 
 const color = [
   '#C0392B',
   '#E74C3C',
@@ -88,7 +88,7 @@ const Home = () => {
             <TouchableOpacity
               style={styles.btnStartTextChat}
               onPress={() => navigation.navigate('TextChat')}>
-              <Text style={{color: '#FFFFFF'}}>Ayo ngobrol!</Text>
+              <Text style={{color: '#FFFFFF'}}>Mulai Obrolan Baru</Text>
             </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>

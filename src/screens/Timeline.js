@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity,  RefreshControl, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity,  RefreshControl} from 'react-native';
 import React, { useEffect, useContext, useState } from 'react';
 import Header from '../components/Header';
 import axios from 'axios';

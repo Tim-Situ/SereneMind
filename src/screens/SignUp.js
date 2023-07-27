@@ -46,7 +46,6 @@ const SignUp = ({route}) => {
         password,
       })
       .then(res => {
-        console.log(res.data);
         Alert.alert(
           'Reistrasi Berhasil',
           'Silahkan login menggunakan akun yang telah di daftarkan.',

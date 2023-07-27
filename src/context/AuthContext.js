@@ -11,7 +11,6 @@ export const AuthProvider = ({children}) => {
   const [userToken, setUserToken] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
 
-
   const session = async () => {
     try {
       let token = await AsyncStorage.getItem('userToken');
@@ -22,20 +21,18 @@ export const AuthProvider = ({children}) => {
           },
         })
         .then(res => {
-          console.log(res.data);
           setUserProfile(res.data);
           setUserToken(token);
           setIsLoading(false);
         })
         .catch(err => {
-          console.log(err);
           setUserProfile(null);
           setUserToken(null);
           AsyncStorage.removeItem('userToken');
           setIsLoading(false);
         });
     } catch (error) {
-      console.log(error);
+      // handle error
     }
   };
 
@@ -47,13 +44,12 @@ export const AuthProvider = ({children}) => {
     //     },
     //   })
     //   .then(res => {
-    //     console.log(res.data);
     //     setUserProfile(null);
     //     setUserToken(null);
     //     AsyncStorage.removeItem('userToken');
     //   })
     //   .catch(err => {
-    //     console.log(err);
+    //     // handle error
     //   });
     setUserProfile(null);
     setUserToken(null);

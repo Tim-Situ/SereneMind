@@ -1,10 +1,17 @@
-import {View, Text, TouchableOpacity, Image, StyleSheet, ScrollView} from 'react-native';
-import React from 'react';
-import { FlatGrid } from 'react-native-super-grid';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
+import React, {useState} from 'react';
+import {SimpleGrid} from 'react-native-super-grid';
 
 const Personalize = ({route, navigation}) => {
   const {name} = route.params;
-  const [items, setItems] = React.useState([
+  const [items, setItems] = useState([
     {uri: require('../images/cemas.png')},
     {uri: require('../images/depresi.png')},
     {uri: require('../images/stress.png')},
@@ -14,7 +21,12 @@ const Personalize = ({route, navigation}) => {
     {uri: require('../images/trauma.png')},
     {uri: require('../images/masalah.png')},
     {uri: require('../images/tidur.png')},
-    {uri: require('../images/motivasi.png')}, 
+    {uri: require('../images/motivasi.png')},
+    {uri: require('../images/hubungan.png')},
+    {uri: require('../images/trauma.png')},
+    {uri: require('../images/masalah.png')},
+    {uri: require('../images/tidur.png')},
+    {uri: require('../images/motivasi.png')},
   ]);
 
   return (
@@ -41,17 +53,24 @@ const Personalize = ({route, navigation}) => {
         </Text>
       </View>
       <View style={{flex: 1}}>
-        <FlatGrid
-          itemDimension={130}
-          data={items}
-          style={styles.gridView}
-          spacing={10}
-          renderItem={({ item }) => (
-            <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-              <Image source={item.uri}/>
-            </ScrollView>
-          )}
-        />
+        <ScrollView>
+          <SimpleGrid
+            itemDimension={150}
+            data={items}
+            renderItem={({item}) => (
+              <TouchableOpacity style={[styles.defaultCard, {height: 120}]}>
+                <ImageBackground
+                  source={item.uri}
+                  resizeMode="cover"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 6,
+                  }}></ImageBackground>
+              </TouchableOpacity>
+            )}
+          />
+        </ScrollView>
       </View>
       <View
         style={{
@@ -67,7 +86,8 @@ const Personalize = ({route, navigation}) => {
             elevation: 2,
             justifyContent: 'center',
             alignItems: 'center',
-          }} onPress={() => navigation.navigate('SignUp',{name: name})}>
+          }}
+          onPress={() => navigation.navigate('SignUp', {name: name})}>
           <Text style={{color: '#FFFFFF'}}>Pilih</Text>
         </TouchableOpacity>
       </View>
@@ -76,25 +96,10 @@ const Personalize = ({route, navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  gridView: {
-    marginTop: 10,
-    flex: 1,
-  },
-  itemContainer: {
-    justifyContent: 'flex-end',
-    borderRadius: 5,
-    padding: 10,
-    height: 150,
-  },
-  itemName: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
-  },
-  itemCode: {
-    fontWeight: '600',
-    fontSize: 12,
-    color: '#fff',
+  defaultCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    elevation: 2,
   },
 });
 
