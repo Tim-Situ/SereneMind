@@ -1,11 +1,9 @@
-import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity,  RefreshControl, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity,  RefreshControl, Alert} from 'react-native';
 import React, { useEffect, useContext, useState } from 'react';
 import Header from '../components/Header';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { responsiveHeight, responsiveWidth } from '../components/Responsive';
-
-
 
 const Timeline = ({navigation}) => {
   const [getTimeline, setGettimeline] = useState([])
@@ -40,6 +38,22 @@ const PostTimeLine = async () => {
       .finally(() => setIsLoading(false), onRefresh())
 }
 
+const DeleteTimeline = async (id) => {
+   let token = await AsyncStorage.getItem('userToken');
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  }
+
+  axios.delete(`${BASE_URL}/post/${id}`, {headers})
+  .then(res => {
+    console.log(res.data.response)
+    onRefresh()
+
+  })
+}
+
 const fetchTimeLine = async() =>{
     try {
       const res = await axios.get(`${BASE_URL}/all-posts`);
@@ -69,6 +83,16 @@ const onRefresh = () => {
     fetchTimeLine()
 };
 
+const DeleteFuntion = (id) =>
+    Alert.alert('Hapus', 'Yakin menghapus komentar?', [
+      {
+        text: 'Batal',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: `Hapus`, onPress: () => DeleteTimeline(id)},
+]);
+
   return (
     <View style={{flex: 1}}>
        <Header title="Timeline" btnLeft="disabled" btnRight="disabled" />
@@ -93,15 +117,15 @@ const onRefresh = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         } style={{backgroundColor: '#d9d9d9',flex: 1}}>
           
-          {getTimeline.map((data, i) => (
-            <View key={i}>
+          {getTimeline.map((data, index) => (
+            <View key={index}>
               <View style={{flexDirection: 'row', backgroundColor: 'white', marginHorizontal: 25, marginTop: 25, borderTopLeftRadius: 15, borderTopRightRadius:15}}>
                 <Image
                       style={styles.image}
                       source={require('../images/user.png')}
                 />
                 <Text style={{flex: 1,color: 'grey', padding: 10}}>{data.description}</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => DeleteFuntion(data.id)} key={data.id}>
                   <Image style={{width: responsiveWidth(30), height: responsiveHeight(30), marginTop: 10}} source={require('../images/more.png')} />
                 </TouchableOpacity>
               </View>
@@ -110,7 +134,7 @@ const onRefresh = () => {
                   <Image style={{marginTop: 2}} source={require('../images/circle-up.png')}/>
                   <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Dukungan</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}}>
+                <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}} onPress={() => navigation.navigate('Comment')}>
                   <Image style={{marginTop: 2}} source={require('../images/comment.png')}/>
                   <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Komen</Text>
                 </TouchableOpacity>

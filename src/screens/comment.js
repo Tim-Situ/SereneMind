@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const comment = () => {
+const Comment = () => {
   return (
     <View>
       <Text>comment</Text>
@@ -9,4 +9,4 @@ const comment = () => {
   )
 }
 
-export default comment
+export default Comment
