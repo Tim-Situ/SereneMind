@@ -11,22 +11,21 @@ import {
 import React, {useEffect, useContext, useState} from 'react';
 import Header from '../components/Header';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AuthContext} from '../context/AuthContext';
 
 import {BASE_URL} from '../config';
 
 const Timeline = ({navigation}) => {
+  const {userToken} = useContext(AuthContext);
   const [getTimeline, setGettimeline] = useState([]);
   const [description, setDescription] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const PostTimeLine = async () => {
-    let token = await AsyncStorage.getItem('userToken');
-
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${userToken}`,
     };
     axios
       .post(
@@ -39,11 +38,10 @@ const Timeline = ({navigation}) => {
         },
       )
       .then(res => {
-        console.log(res.data);
+        // handle response
       })
       .catch(err => {
-        console.log(err);
-        console.log(token);
+        // handle error
       })
       .finally(() => setIsLoading(false));
   };

@@ -69,46 +69,46 @@ const SignUp = ({route}) => {
 
   return (
     <ScrollView>
-    <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20}}>
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <View style={{alignItems: 'center'}}>
-          <Image
-            style={{marginBottom: 15}}
-            source={require('../images/starter-logo.png')}
-          />
-          <Text style={styles.signUpTitle}>Selangkah lagi!</Text>
-          <Text style={styles.signUpCaption}>
-            Halo {name}! yuk selesaikan pendaftaranmu. Jangan sampai riwayat
-            percakapan kita <Text style={{fontWeight: 'bold'}}>hilang.</Text>
-          </Text>
+      <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20}}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={{alignItems: 'center'}}>
+            <Image
+              style={{marginBottom: 15}}
+              source={require('../images/starter-logo.png')}
+            />
+            <Text style={styles.signUpTitle}>Selangkah lagi!</Text>
+            <Text style={styles.signUpCaption}>
+              Halo {name}! yuk selesaikan pendaftaranmu. Jangan sampai riwayat
+              percakapan kita <Text style={{fontWeight: 'bold'}}>hilang.</Text>
+            </Text>
+          </View>
+          <View style={{justifyContent: 'center'}}>
+            <Text style={styles.defaultInputText}>Email</Text>
+            <TextInput
+              style={styles.defaultInput}
+              placeholder="Masukan nama"
+              onChangeText={text => setEmail(text)}
+            />
+            <Text style={styles.defaultInputText}>Password</Text>
+            <TextInput
+              style={styles.defaultInput}
+              placeholder="Masukan password"
+              onChangeText={text => setPassword(text)}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.btnPrimary}
+            onPress={() => validation()}>
+            <Text style={{color: '#FFFFFF'}}>Daftar</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{justifyContent: 'center'}}>
-          <Text style={styles.defaultInputText}>Email</Text>
-          <TextInput
-            style={styles.defaultInput}
-            placeholder="Masukan nama"
-            onChangeText={text => setEmail(text)}
-          />
-          <Text style={styles.defaultInputText}>Password</Text>
-          <TextInput
-            style={styles.defaultInput}
-            placeholder="Masukan password"
-            onChangeText={text => setPassword(text)}
-          />
+        <View style={styles.centeredFooter}>
+          <Text style={styles.footerText}>Sudah punya akun?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.footerLink}>Login disini</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.btnPrimary}
-          onPress={() => validation()}>
-          <Text style={{color: '#FFFFFF'}}>Daftar</Text>
-        </TouchableOpacity>
       </View>
-      <View style={styles.centeredFooter}>
-        <Text style={styles.footerText}>Sudah punya akun?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.footerLink}>Login disini</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
     </ScrollView>
   );
 };
