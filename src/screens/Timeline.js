@@ -1,8 +1,9 @@
-import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity,  RefreshControl} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, ScrollView, TouchableOpacity,  RefreshControl, Dimensions} from 'react-native';
 import React, { useEffect, useContext, useState } from 'react';
 import Header from '../components/Header';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { responsiveHeight, responsiveWidth } from '../components/Responsive';
 
 
 
@@ -12,6 +13,7 @@ const Timeline = ({navigation}) => {
   const [description, setDescription] = useState('')
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
 
 
 const PostTimeLine = async () => {
@@ -35,14 +37,14 @@ const PostTimeLine = async () => {
         console.log(err)
         console.log(token)
       })
-      .finally(() => setIsLoading(false))
+      .finally(() => setIsLoading(false), onRefresh())
 }
 
 const fetchTimeLine = async() =>{
     try {
       const res = await axios.get(`${BASE_URL}/all-posts`);
       console.log(res.data.response);
-      setGettimeline(res.data.response)
+      setGettimeline(res.data.response.reverse())
     } catch (error) {
       console.log(error);
     }
@@ -52,21 +54,20 @@ const fetchTimeLine = async() =>{
 useEffect(() => {
     const unSubscribe = navigation.addListener('focus', () => {
         fetchTimeLine();
-      });
 
-      PostTimeLine()
-      return unSubscribe;
+      });
+    return unSubscribe;
 
 },[navigation])
 
-   const onRefresh = () => {
+const onRefresh = () => {
     setRefreshing(true);
 
     setTimeout(() => {
       setRefreshing(false);
-    }, 1000);
+    }, 100);
     fetchTimeLine()
-  };
+};
 
   return (
     <View style={{flex: 1}}>
@@ -76,18 +77,16 @@ useEffect(() => {
                   style={styles.image}
                   source={require('../images/user.png')}
             />
-            <TextInput value={description} onChangeText={text => setDescription(text)}  multiline style={{width: 190,marginLeft:15, color: 'grey'}} placeholder='Tulis cerita...' placeholderTextColor={'grey'}/>  
-            <View style={{justifyContent: 'center'}}>
-              <TouchableOpacity onPress={() => {description ?  PostTimeLine(description) : ''}}>
-                <Image style={{width: 25, height: 25, marginLeft:0}} source={require('../images/paper-plane.png')} />
-              </TouchableOpacity>
-            </View>
+            <TextInput value={description} onChangeText={text => setDescription(text)}  multiline style={{flex:1,marginLeft:15, color: 'grey'}} placeholder='Tulis cerita...' placeholderTextColor={'grey'}/> 
+            <TouchableOpacity onPress={() => {description ?  PostTimeLine(description) : ''}} style={{marginRight: 30, marginTop: 30}}>
+              <Image style={{width: 25, height: 25}} source={require('../images/paper-plane.png')} />
+            </TouchableOpacity>
             
         </View>
         <View style={{backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center'}}>
               <Image style={{marginTop: 2}} source={require('../images/camera.png')}/>
               <Text style={{marginLeft: 7,marginBottom: 15,color: '#7286D3'}}>Tambah gambar</Text>
-        </View>
+        </View> 
        
 
         <ScrollView refreshControl={
@@ -96,14 +95,14 @@ useEffect(() => {
           
           {getTimeline.map((data, i) => (
             <View key={i}>
-              <View style={{marginHorizontal: 25, backgroundColor: 'white', flexDirection: 'row', borderTopRightRadius: 15, borderTopLeftRadius: 15, marginTop: 10}}>
+              <View style={{flexDirection: 'row', backgroundColor: 'white', marginHorizontal: 25, marginTop: 25, borderTopLeftRadius: 15, borderTopRightRadius:15}}>
                 <Image
                       style={styles.image}
                       source={require('../images/user.png')}
                 />
-                <Text style={{width: 190, padding: 15, color: 'grey'}}>{data.description}</Text>
+                <Text style={{flex: 1,color: 'grey', padding: 10}}>{data.description}</Text>
                 <TouchableOpacity>
-                  <Image style={{width: 25, height: 25, marginTop: 15}} source={require('../images/more.png')} />
+                  <Image style={{width: responsiveWidth(30), height: responsiveHeight(30), marginTop: 10}} source={require('../images/more.png')} />
                 </TouchableOpacity>
               </View>
               <View style={{marginHorizontal: 25, backgroundColor: 'white', flexDirection: 'row', borderBottomLeftRadius: 15, borderBottomRightRadius: 15, marginBottom: 15}}>
@@ -130,9 +129,14 @@ useEffect(() => {
 };
 
 const styles = StyleSheet.create({
+  defaultCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
+    padding: 15,
+    elevation: 2,
+  },
   create:{
     backgroundColor: 'white',
-    width: '100%',
     marginTop: 5,
     flexDirection: 'row',
   },
@@ -140,8 +144,8 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginTop: 25,
     marginBottom: 25,
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
   }
 });
 
