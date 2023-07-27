@@ -38,10 +38,11 @@ const Timeline = ({navigation}) => {
         },
       )
       .then(res => {
-        // handle response
+        console.log(res.data);
       })
       .catch(err => {
-        // handle error
+        console.log(err);
+        console.log(token);
       })
       .finally(() => setIsLoading(false));
   };
@@ -49,9 +50,10 @@ const Timeline = ({navigation}) => {
   const fetchTimeLine = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/all-posts`);
+      console.log(res.data.response);
       setGettimeline(res.data.response);
     } catch (error) {
-      // handle error
+      console.log(error);
     }
   };
 
