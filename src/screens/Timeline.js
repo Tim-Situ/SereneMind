@@ -13,9 +13,10 @@ import Header from '../components/Header';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {BASE_URL} from '../config';
+
 const Timeline = ({navigation}) => {
   const [getTimeline, setGettimeline] = useState([]);
-  const BASE_URL = 'https://serenemind-gateway.ulya.my.id';
   const [description, setDescription] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
