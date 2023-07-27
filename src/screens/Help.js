@@ -10,8 +10,10 @@ const Help = () => {
       <Header title="Bantuan" btnLeft="enabled" btnRight="disabled" />
       <View style={{flex: 1}}></View>
       <TouchableOpacity style={styles.btnPrimary}>
-        <Icon name="whatsapp" size={20} color={'#ffffff'} />
-        <Text style={{color: '#FFFFFF', marginLeft: 10}}>Hubungi Kami</Text>
+        <Icon name="book" size={20} color={'#ffffff'} />
+        <Text style={{color: '#FFFFFF', marginLeft: 10}}>
+          Buka Buku Panduan
+        </Text>
       </TouchableOpacity>
     </View>
   );

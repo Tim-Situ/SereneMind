@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React, {useState, useCallback, useEffect} from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GiftedChat, Bubble, Composer, Send} from 'react-native-gifted-chat';
 import Voice from '@react-native-community/voice';
 
@@ -19,12 +11,10 @@ const VoiceChat = () => {
   const [speaking, setSpeaking] = useState(false);
   const [result, setResult] = useState('');
 
-  const speechStartHandler = e => {
-    console.log('speech start handler');
-  };
+  const speechStartHandler = e => {};
+
   const speechEndHandler = e => {
     setRecording(false);
-    console.log('speech end handler');
   };
   const speechResultsHandler = e => {
     console.log('voice event:', e);
@@ -33,15 +23,15 @@ const VoiceChat = () => {
   };
 
   const speechErrorHandler = e => {
-    console.log('voice event error:', e);
+    setRecording(false);
   };
 
   const startRecording = async () => {
     setRecording(true);
     try {
       await Voice.start('id-ID');
-    } catch (error) {
-      console.log('error:', error);
+    } catch (err) {
+      // handle error
     }
   };
 
@@ -49,17 +39,9 @@ const VoiceChat = () => {
     try {
       await Voice.stop();
       setRecording(false);
-    } catch (error) {
-      console.log('error', error);
+    } catch (err) {
+      // handle error
     }
-  };
-
-  const clear = () => {
-    setMessages([]);
-  };
-
-  const stopSpeaking = () => {
-    setSpeaking(false);
   };
 
   useEffect(() => {
@@ -130,7 +112,9 @@ const VoiceChat = () => {
           );
         }}
         renderInputToolbar={() => {}}
+        minInputToolbarHeight={0}
         maxComposerHeight={0}
+        minComposerHeight={0}
       />
       <View
         style={{
@@ -140,15 +124,20 @@ const VoiceChat = () => {
           elevation: 2,
         }}>
         {recording ? (
-          <TouchableOpacity onPress={stopRecording}>
-            <Image source={require('../images/listening.png')} />
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity onPress={stopRecording}>
+              <Image source={require('../images/listening.png')} />
+            </TouchableOpacity>
+            <Text style={{marginTop: 20}}>Listening...</Text>
+          </>
         ) : (
-          <TouchableOpacity onPress={startRecording}>
-            <Image source={require('../images/recording.png')} />
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity onPress={startRecording}>
+              <Image source={require('../images/recording.png')} />
+            </TouchableOpacity>
+            <Text style={{marginTop: 20}}>Tekan untuk berbicara</Text>
+          </>
         )}
-        <Text style={{marginTop: 20}}>Listening...</Text>
       </View>
     </View>
   );

@@ -76,7 +76,7 @@ const Home = () => {
           <Text style={styles.sectionTitle}>Obrolan Teks</Text>
           <View style={[styles.defaultCard, {marginBottom: 20}]}>
             <View style={{flexDirection: 'row'}}>
-              <View style={styles.flexCenter}>
+              <View style={[styles.flexCenter, {marginRight: 20}]}>
                 <Image source={require('../images/starter-logo.png')} />
               </View>
               <View style={{flex: 1, justifyContent: 'center'}}>
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   flexCenter: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
