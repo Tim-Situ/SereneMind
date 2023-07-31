@@ -16,8 +16,10 @@ import Date from '../components/Date';
 import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
+import {useNavigation} from '@react-navigation/native';
 
 const History = () => {
+  const navigation = useNavigation();
   const {userToken} = useContext(AuthContext);
   const [data, setData] = useState([]);
 
@@ -88,7 +90,8 @@ const History = () => {
                     height: 150,
                     backgroundColor: '#C0392B',
                   },
-                ]}>
+                ]}
+                onPress={() => navigation.navigate('TextChat', {id: item.id})}>
                 <View style={{flex: 1, padding: 15}}>
                   <Text style={styles.historyTitle}>{item.category.name}</Text>
                   <Date style={styles.historyDate} timestamp={item.createdAt} />

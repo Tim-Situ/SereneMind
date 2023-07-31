@@ -112,7 +112,8 @@ const Home = () => {
                     height: 150,
                     backgroundColor: '#C0392B',
                   },
-                ]}>
+                ]}
+                onPress={() => navigation.navigate('TextChat', {id: item.id})}>
                 <Text style={styles.historyTitle}>{item.category.name}</Text>
                 <View style={{flex: 1}}></View>
                 <Date style={styles.historyDate} timestamp={item.createdAt} />

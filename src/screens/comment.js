@@ -18,10 +18,8 @@ const Comment = ({navigation}) => {
 
   const fetchComment = async () => {
     try {
-      console.log(id);
       const res = await axios.get(`${BASE_URL}/comments-post/${id}`);
       setComment(res.data.response);
-      console.log(res.data.response);
     } catch (error) {
       // handle error
     }

@@ -21,10 +21,10 @@ export const AuthProvider = ({children}) => {
           },
         })
         .then(res => {
-          if (res.data == null) {
+          if (res.data.status == 'Gagal') {
             logout();
           } else {
-            setUserProfile(res.data);
+            setUserProfile(res.data.data);
             setUserToken(token);
             setIsLoading(false);
           }
@@ -35,7 +35,7 @@ export const AuthProvider = ({children}) => {
           AsyncStorage.removeItem('userToken');
           setIsLoading(false);
         });
-    } catch (error) {
+    } catch (err) {
       // handle error
     }
   };

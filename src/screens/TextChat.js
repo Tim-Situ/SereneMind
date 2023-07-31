@@ -1,25 +1,32 @@
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useState, useCallback, useEffect} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState, useCallback, useEffect, useContext} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GiftedChat, Bubble, Composer, Send} from 'react-native-gifted-chat';
+import axios from 'axios';
+
+import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
+import {AuthContext} from '../context/AuthContext';
 
-const TextChat = () => {
+const TextChat = ({route}) => {
+  const {userToken, userProfile} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
+  const {id} = route.params;
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'Serene',
+    axios
+      .get(`${BASE_URL}/messages/${id}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
         },
-      },
-    ]);
+      })
+      .then(res => {
+        setMessages(res.data.data);
+      })
+      .catch(err => {
+        // handle error
+      });
   }, []);
 
   const onSend = useCallback((messages = []) => {
@@ -36,11 +43,21 @@ const TextChat = () => {
         renderAvatar={() => {}}
         scrollToBottom={true}
         alwaysShowSend={true}
+        renderLoading={() => (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text>Memuat chat...</Text>
+            <Text>
+              TIPS: Jika pesan lama dimuat silahkan kembali ke menu lalu coba
+              lagi.
+            </Text>
+          </View>
+        )}
         textInputStyle={styles.defaultInput}
         onSend={messages => onSend(messages)}
         user={{
-          _id: 1,
-          name: 'Fauzein',
+          _id: userProfile.id,
+          name: userProfile.name,
         }}
         renderBubble={props => {
           return (
