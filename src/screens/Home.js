@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  LogBox
+  LogBox,
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import {SimpleGrid} from 'react-native-super-grid';
@@ -16,8 +16,9 @@ import axios from 'axios';
 import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
+import Date from '../components/Date';
 
-LogBox.ignoreAllLogs(); 
+LogBox.ignoreAllLogs();
 const color = [
   '#C0392B',
   '#E74C3C',
@@ -112,7 +113,9 @@ const Home = () => {
                     backgroundColor: '#C0392B',
                   },
                 ]}>
-                <Text style={styles.historyTitle}>{item.title}</Text>
+                <Text style={styles.historyTitle}>{item.category.name}</Text>
+                <View style={{flex: 1}}></View>
+                <Date style={styles.historyDate} timestamp={item.createdAt} />
               </TouchableOpacity>
             )}
           />
@@ -161,6 +164,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  historyDate: {
+    color: '#ffffff',
+    fontSize: 12,
   },
   textLink: {
     color: '#7286D3',

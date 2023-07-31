@@ -11,6 +11,7 @@ import {SimpleGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
+import Date from '../components/Date';
 
 import {BASE_URL} from '../config';
 
@@ -89,7 +90,8 @@ const History = () => {
                   },
                 ]}>
                 <View style={{flex: 1, padding: 15}}>
-                  <Text style={styles.historyTitle}>{item.title}</Text>
+                  <Text style={styles.historyTitle}>{item.category.name}</Text>
+                  <Date style={styles.historyDate} timestamp={item.createdAt} />
                 </View>
                 <TouchableOpacity
                   style={{
@@ -123,6 +125,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  historyDate: {
+    color: '#ffffff',
+    fontSize: 12,
   },
 });
 
