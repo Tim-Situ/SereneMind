@@ -56,7 +56,7 @@ const DeleteTimeline = async (id) => {
 
 const fetchTimeLine = async() =>{
     try {
-      const res = await axios.get(`${BASE_URL}/all-posts`);
+      const res = await axios.get(`${BASE_URL}/all-posts`)
       console.log(res.data.response);
       setGettimeline(res.data.response.reverse())
     } catch (error) {
@@ -95,7 +95,7 @@ const DeleteFuntion = (id) =>
 
   return (
     <View style={{flex: 1}}>
-       <Header title="Timeline" btnLeft="disabled" btnRight="disabled" />
+       <Header title="Status" btnLeft="disabled" btnRight="disabled" />
         <View style={styles.create}>
             <Image
                   style={styles.image}
@@ -107,10 +107,10 @@ const DeleteFuntion = (id) =>
             </TouchableOpacity>
             
         </View>
-        <View style={{backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center'}}>
+        <TouchableOpacity style={{backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center'}}>
               <Image style={{marginTop: 2}} source={require('../images/camera.png')}/>
               <Text style={{marginLeft: 7,marginBottom: 15,color: '#7286D3'}}>Tambah gambar</Text>
-        </View> 
+        </TouchableOpacity> 
        
 
         <ScrollView refreshControl={
@@ -124,7 +124,11 @@ const DeleteFuntion = (id) =>
                       style={styles.image}
                       source={require('../images/user.png')}
                 />
-                <Text style={{flex: 1,color: 'grey', padding: 10}}>{data.description}</Text>
+                <View style={{flexDirection: 'column', flex: 1, padding: 10, marginTop:10}}>
+                  <Text style={{color: 'grey', fontWeight: 'bold'}}>{data.user.name}</Text>
+                  <Text style={{color: 'grey'}}>{data.description}</Text>
+                </View>
+               
                 <TouchableOpacity onPress={() => DeleteFuntion(data.id)} key={data.id}>
                   <Image style={{width: responsiveWidth(30), height: responsiveHeight(30), marginTop: 10}} source={require('../images/more.png')} />
                 </TouchableOpacity>
@@ -134,7 +138,7 @@ const DeleteFuntion = (id) =>
                   <Image style={{marginTop: 2}} source={require('../images/circle-up.png')}/>
                   <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Dukungan</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}} onPress={() => navigation.navigate('Comment')}>
+                <TouchableOpacity style={{flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: "center", marginBottom: 15}} onPress={() => navigation.navigate('Comment', {id : data.id, userId: data.user_id, description: data.description, user: data.user.name})} key={data.id}>
                   <Image style={{marginTop: 2}} source={require('../images/comment.png')}/>
                   <Text style={{color: '#7286D3',marginHorizontal : 10}}>0 Komen</Text>
                 </TouchableOpacity>

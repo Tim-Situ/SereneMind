@@ -20,7 +20,7 @@ import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import Settings from '../screens/Settings';
 import Help from '../screens/Help';
-import Comment from '../screens/comment';
+import Comment from '../screens/Comment';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
