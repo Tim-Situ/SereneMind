@@ -21,9 +21,13 @@ export const AuthProvider = ({children}) => {
           },
         })
         .then(res => {
-          setUserProfile(res.data);
-          setUserToken(token);
-          setIsLoading(false);
+          if (res.data == null) {
+            logout();
+          } else {
+            setUserProfile(res.data);
+            setUserToken(token);
+            setIsLoading(false);
+          }
         })
         .catch(err => {
           setUserProfile(null);

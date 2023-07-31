@@ -17,9 +17,11 @@ const Profile = () => {
           style={{marginBottom: 20}}
           source={require('../images/profile.png')}
         />
-        <Text style={{fontSize: 20, color: '#313131'}}>{userProfile.name}</Text>
+        <Text style={{fontSize: 20, color: '#313131'}}>
+          {userProfile ? userProfile.name : '-'}
+        </Text>
         <Text style={{fontSize: 16, color: '#BDC3C7'}}>
-          {userProfile.email}
+          {userProfile ? userProfile.email : '-'}
         </Text>
       </View>
       <View style={{padding: 20, justifyContent: 'center'}}>
