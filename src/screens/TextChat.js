@@ -12,6 +12,7 @@ import {AuthContext} from '../context/AuthContext';
 const TextChat = ({route}) => {
   const {userToken, userProfile} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState([]);
   const {id} = route.params;
 
   useEffect(() => {
@@ -29,7 +30,36 @@ const TextChat = ({route}) => {
       });
   }, []);
 
+  useEffect(() => {
+    if (newMessage.length != 0 && newMessage != '') {
+      axios
+        .post(
+          `${BASE_URL}/message`,
+          {
+            chat_id: id,
+            content: newMessage,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userToken}`,
+            },
+          },
+        )
+        .then(res => {
+          setMessages(previousMessages =>
+            GiftedChat.append(previousMessages, res.data.data),
+          );
+        })
+        .catch(err => {
+          // handle error
+          console.log(err);
+        });
+    }
+  }, [newMessage]);
+
   const onSend = useCallback((messages = []) => {
+    setNewMessage(messages[0].text);
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),
     );
