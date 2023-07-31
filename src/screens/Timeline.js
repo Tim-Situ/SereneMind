@@ -225,9 +225,6 @@ const Timeline = () => {
                 onPress={() =>
                   navigation.navigate('Comment', {
                     id: data.id,
-                    userId: data.user_id,
-                    description: data.description,
-                    user: data.user.name,
                   })
                 }
                 key={data.id}>
