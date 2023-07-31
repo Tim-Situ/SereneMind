@@ -98,7 +98,7 @@ const Home = () => {
                 Kamu bisa ngobrol dengan seren menggunakan percakapan suara!
               </Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('VoiceChat')}>
+            <TouchableOpacity onPress={() => newMessage('Voice')}>
               <Image source={require('../images/recording.png')} />
             </TouchableOpacity>
           </View>

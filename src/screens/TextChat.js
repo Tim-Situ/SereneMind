@@ -3,6 +3,7 @@ import React, {useState, useCallback, useEffect, useContext} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GiftedChat, Bubble, Composer, Send} from 'react-native-gifted-chat';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 
 import {BASE_URL} from '../config';
 
@@ -10,6 +11,7 @@ import Header from '../components/Header';
 import {AuthContext} from '../context/AuthContext';
 
 const TextChat = ({route}) => {
+  const navigation = useNavigation();
   const {userToken, userProfile} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState([]);
@@ -103,7 +105,9 @@ const TextChat = ({route}) => {
             return (
               <View style={{flexDirection: 'row'}}>
                 <View style={{justifyContent: 'center'}}>
-                  <TouchableOpacity style={{marginLeft: 10}}>
+                  <TouchableOpacity
+                    style={{marginLeft: 10}}
+                    onPress={() => navigation.navigate('VoiceChat', {id: id})}>
                     <View
                       style={[styles.btnSubmit, {backgroundColor: '#ffffff'}]}>
                       <Icon name="microphone" size={20} color={'#7286D3'} />

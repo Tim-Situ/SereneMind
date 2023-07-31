@@ -1,15 +1,21 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import React, {useState, useCallback, useEffect} from 'react';
-import {GiftedChat, Bubble, Composer, Send} from 'react-native-gifted-chat';
+import React, {useState, useContext, useEffect} from 'react';
+import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import Voice from '@react-native-community/voice';
+import axios from 'axios';
+
+import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
+import {AuthContext} from '../context/AuthContext';
 
-const VoiceChat = () => {
+const VoiceChat = ({route}) => {
+  const {userToken, userProfile} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [recording, setRecording] = useState(false);
-  const [speaking, setSpeaking] = useState(false);
+  const [randomId, setRandomId] = useState(0);
   const [result, setResult] = useState('');
+  const {id} = route.params;
 
   const speechStartHandler = e => {};
 
@@ -17,9 +23,22 @@ const VoiceChat = () => {
     setRecording(false);
   };
   const speechResultsHandler = e => {
-    console.log('voice event:', e);
     const text = e.value[0];
     setResult(text);
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, [
+        {
+          _id: randomId + 1,
+          text: text,
+          createdAt: new Date(),
+          user: {
+            _id: userProfile.id,
+            name: userProfile.name,
+          },
+        },
+      ]),
+    );
+    setRandomId(randomId + 1);
   };
 
   const speechErrorHandler = e => {
@@ -45,6 +64,19 @@ const VoiceChat = () => {
   };
 
   useEffect(() => {
+    axios
+      .get(`${BASE_URL}/messages/${id}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+      .then(res => {
+        setMessages(res.data.data);
+      })
+      .catch(err => {
+        // handle error
+      });
+
     // voice handler events
     Voice.onSpeechStart = speechStartHandler;
     Voice.onSpeechEnd = speechEndHandler;
@@ -58,33 +90,30 @@ const VoiceChat = () => {
   }, []);
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'Serene',
-        },
-      },
-    ]);
-  }, []);
-
-  useEffect(() => {
-    let message = {
-      _id: Math.random().toString(36).substring(7),
-      text: result,
-      createdAt: new Date(),
-      user: {
-        _id: 1,
-        name: 'Fauzein',
-      },
-    };
     if (result != '') {
-      setMessages(previousMessages =>
-        GiftedChat.append(previousMessages, [message]),
-      );
+      axios
+        .post(
+          `${BASE_URL}/message`,
+          {
+            chat_id: id,
+            content: result,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userToken}`,
+            },
+          },
+        )
+        .then(res => {
+          setMessages(previousMessages =>
+            GiftedChat.append(previousMessages, res.data.data),
+          );
+        })
+        .catch(err => {
+          // handle error
+          console.log(err);
+        });
     }
   }, [result]);
 
@@ -96,11 +125,21 @@ const VoiceChat = () => {
         renderAvatar={() => {}}
         scrollToBottom={true}
         alwaysShowSend={true}
+        renderLoading={() => (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text>Memuat chat...</Text>
+            <Text>
+              TIPS: Jika pesan lama dimuat silahkan kembali ke menu lalu coba
+              lagi.
+            </Text>
+          </View>
+        )}
         textInputStyle={styles.defaultInput}
         onSend={messages => onSend(messages)}
         user={{
-          _id: 1,
-          name: 'Fauzein',
+          _id: userProfile.id,
+          name: userProfile.name,
         }}
         renderBubble={props => {
           return (
