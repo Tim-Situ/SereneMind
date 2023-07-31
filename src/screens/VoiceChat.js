@@ -3,19 +3,19 @@ import React, {useState, useContext, useEffect} from 'react';
 import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import Voice from '@react-native-community/voice';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
 import {AuthContext} from '../context/AuthContext';
 
-const VoiceChat = ({route}) => {
+const VoiceChat = ({chatId, handleMode}) => {
   const {userToken, userProfile} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [recording, setRecording] = useState(false);
   const [randomId, setRandomId] = useState(0);
   const [result, setResult] = useState('');
-  const {id} = route.params;
 
   const speechStartHandler = e => {};
 
@@ -65,7 +65,7 @@ const VoiceChat = ({route}) => {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/messages/${id}`, {
+      .get(`${BASE_URL}/messages/${chatId}`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
@@ -95,7 +95,7 @@ const VoiceChat = ({route}) => {
         .post(
           `${BASE_URL}/message`,
           {
-            chat_id: id,
+            chat_id: chatId,
             content: result,
           },
           {
@@ -119,7 +119,7 @@ const VoiceChat = ({route}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
-      <Header title="Obrolan Suara" btnLeft="enabled" btnRight="disabled" />
+      {/* <Header title="Obrolan Suara" btnLeft="enabled" btnRight="disabled" /> */}
       <GiftedChat
         messages={messages}
         renderAvatar={() => {}}
@@ -158,25 +158,55 @@ const VoiceChat = ({route}) => {
       <View
         style={{
           padding: 20,
-          alignItems: 'center',
           backgroundColor: '#ffffff',
           elevation: 2,
         }}>
-        {recording ? (
-          <>
-            <TouchableOpacity onPress={stopRecording}>
-              <Image source={require('../images/listening.png')} />
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}></View>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {recording ? (
+              <>
+                <TouchableOpacity onPress={stopRecording}>
+                  <Image source={require('../images/listening.png')} />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity onPress={startRecording}>
+                  <Image source={require('../images/recording.png')} />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <TouchableOpacity style={{marginLeft: 10}} onPress={handleMode}>
+              <View style={styles.btnSubmit}>
+                <Icon name="keyboard" size={20} color={'#ffffff'} />
+              </View>
             </TouchableOpacity>
-            <Text style={{marginTop: 20}}>Listening...</Text>
-          </>
-        ) : (
-          <>
-            <TouchableOpacity onPress={startRecording}>
-              <Image source={require('../images/recording.png')} />
-            </TouchableOpacity>
-            <Text style={{marginTop: 20}}>Tekan untuk berbicara</Text>
-          </>
-        )}
+          </View>
+        </View>
+        <Text style={{marginBottom: 20, textAlign: 'center'}}>
+          {recording ? 'Mendengarkan...' : 'Tekan untuk bicara'}
+        </Text>
       </View>
     </View>
   );
@@ -204,6 +234,15 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       elevation: 2,
     },
+  },
+  btnSubmit: {
+    backgroundColor: '#7286D3',
+    width: 40,
+    height: 40,
+    borderRadius: 25,
+    elevation: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

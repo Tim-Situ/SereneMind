@@ -91,7 +91,9 @@ const History = () => {
                     backgroundColor: '#C0392B',
                   },
                 ]}
-                onPress={() => navigation.navigate('TextChat', {id: item.id})}>
+                onPress={() =>
+                  navigation.navigate('Chat', {id: item.id, mode: 'Text'})
+                }>
                 <View style={{flex: 1, padding: 15}}>
                   <Text style={styles.historyTitle}>{item.category.name}</Text>
                   <Date style={styles.historyDate} timestamp={item.createdAt} />

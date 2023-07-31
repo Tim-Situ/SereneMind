@@ -21,6 +21,7 @@ import EditProfile from '../screens/EditProfile';
 import Settings from '../screens/Settings';
 import Help from '../screens/Help';
 import Comment from '../screens/Comment';
+import Chat from '../screens/Chat';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,7 +40,6 @@ const AppRoutes = () => {
             <Stack.Screen name="Welcome1" component={Welcome1} />
             <Stack.Screen name="Welcome2" component={Welcome2} />
             <Stack.Screen name="SignUp" component={SignUp} />
-            <Stack.Screen name="Personalize" component={Personalize} />
             <Stack.Screen name="Login" component={Login} />
           </>
         ) : (
@@ -90,6 +90,8 @@ const AppRoutes = () => {
                 </Tab.Navigator>
               )}
             </Stack.Screen>
+            <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="Personalize" component={Personalize} />
             <Stack.Screen name="VoiceChat" component={VoiceChat} />
             <Stack.Screen name="TextChat" component={TextChat} />
             <Stack.Screen name="History" component={History} />

@@ -6,11 +6,17 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {SimpleGrid} from 'react-native-super-grid';
+import {StackActions, useNavigation} from '@react-navigation/native';
+import {AuthContext} from '../context/AuthContext';
+import axios from 'axios';
+import {BASE_URL} from '../config';
 
-const Personalize = ({route, navigation}) => {
-  const {name} = route.params;
+const Personalize = ({route}) => {
+  const navigation = useNavigation();
+  const {userToken, userProfile} = useContext(AuthContext);
+  const {mode} = route.params;
   const [items, setItems] = useState([
     {uri: require('../images/cemas.png')},
     {uri: require('../images/depresi.png')},
@@ -21,14 +27,40 @@ const Personalize = ({route, navigation}) => {
     {uri: require('../images/trauma.png')},
     {uri: require('../images/masalah.png')},
     {uri: require('../images/tidur.png')},
-    {uri: require('../images/motivasi.png')},
-    {uri: require('../images/hubungan.png')},
-    {uri: require('../images/trauma.png')},
-    {uri: require('../images/masalah.png')},
-    {uri: require('../images/tidur.png')},
-    {uri: require('../images/motivasi.png')},
   ]);
+  const [selected, setSelected] = useState(-1);
 
+  const newMessage = () => {
+    axios
+      .post(
+        `${BASE_URL}/chat`,
+        {
+          category_id: selected,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userToken}`,
+          },
+        },
+      )
+      .then(res => {
+        navigation.dispatch(
+          StackActions.replace('Chat', {
+            id: res.data.data.id,
+            mode: mode,
+          }),
+        );
+        // navigation.navigate('Chat', {
+        //   id: res.data.data.id,
+        //   mode: mode,
+        // });
+      })
+      .catch(err => {
+        // handle error
+        console.log(err);
+      });
+  };
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7', padding: 20}}>
       <View style={{alignItems: 'center'}}>
@@ -48,8 +80,8 @@ const Personalize = ({route, navigation}) => {
             marginBottom: 25,
             textAlign: 'center',
           }}>
-          Hai {name} , yuk beritahu aku apa masalah yang kamu alami! Seren siap
-          membantumu.
+          Hai {userProfile.name} , yuk beritahu aku apa masalah yang kamu alami!
+          Seren siap membantumu.
         </Text>
       </View>
       <View style={{flex: 1}}>
@@ -58,7 +90,9 @@ const Personalize = ({route, navigation}) => {
             itemDimension={150}
             data={items}
             renderItem={({item}) => (
-              <TouchableOpacity style={[styles.defaultCard, {height: 120}]}>
+              <TouchableOpacity
+                style={[styles.defaultCard, {height: 120}]}
+                onPress={() => setSelected(3)}>
                 <ImageBackground
                   source={item.uri}
                   resizeMode="cover"
@@ -77,19 +111,23 @@ const Personalize = ({route, navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#7286D3',
-            width: '100%',
-            height: 50,
-            borderRadius: 10,
-            elevation: 2,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          onPress={() => navigation.navigate('SignUp', {name: name})}>
-          <Text style={{color: '#FFFFFF'}}>Pilih</Text>
-        </TouchableOpacity>
+        {selected != -1 ? (
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#7286D3',
+              width: '100%',
+              height: 50,
+              borderRadius: 10,
+              elevation: 2,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => newMessage()}>
+            <Text style={{color: '#FFFFFF'}}>Mulai Percakapan</Text>
+          </TouchableOpacity>
+        ) : (
+          <Text>Pilih salahsatu kategori.</Text>
+        )}
       </View>
     </View>
   );

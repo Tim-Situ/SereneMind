@@ -10,16 +10,15 @@ import {BASE_URL} from '../config';
 import Header from '../components/Header';
 import {AuthContext} from '../context/AuthContext';
 
-const TextChat = ({route}) => {
+const TextChat = ({chatId, handleMode}) => {
   const navigation = useNavigation();
   const {userToken, userProfile} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState([]);
-  const {id} = route.params;
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/messages/${id}`, {
+      .get(`${BASE_URL}/messages/${chatId}`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
@@ -38,7 +37,7 @@ const TextChat = ({route}) => {
         .post(
           `${BASE_URL}/message`,
           {
-            chat_id: id,
+            chat_id: chatId,
             content: newMessage,
           },
           {
@@ -69,7 +68,7 @@ const TextChat = ({route}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
-      <Header title="Obrolan Teks" btnLeft="enabled" btnRight="disabled" />
+      {/* <Header title="Obrolan Teks" btnLeft="enabled" btnRight="disabled" /> */}
       {messages.length != 0 ? (
         <GiftedChat
           messages={messages}
@@ -107,7 +106,7 @@ const TextChat = ({route}) => {
                 <View style={{justifyContent: 'center'}}>
                   <TouchableOpacity
                     style={{marginLeft: 10}}
-                    onPress={() => navigation.navigate('VoiceChat', {id: id})}>
+                    onPress={handleMode}>
                     <View
                       style={[styles.btnSubmit, {backgroundColor: '#ffffff'}]}>
                       <Icon name="microphone" size={20} color={'#7286D3'} />
