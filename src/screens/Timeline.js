@@ -18,6 +18,7 @@ import {responsiveHeight, responsiveWidth} from '../components/Responsive';
 import {BASE_URL} from '../config';
 
 import Header from '../components/Header';
+import Date from '../components/Date';
 
 const Timeline = () => {
   const navigation = useNavigation();
@@ -165,6 +166,13 @@ const Timeline = () => {
                 <Text style={{color: 'grey', fontWeight: 'bold'}}>
                   {data.user.name}
                 </Text>
+                <Date
+                  style={{
+                    fontWeight: 'normal',
+                    fontSize: 12,
+                  }}
+                  timestamp={data.createdAt}
+                />
                 <Text style={{color: 'grey'}}>{data.description}</Text>
               </View>
 
