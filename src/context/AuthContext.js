@@ -1,6 +1,7 @@
 import React, {createContext, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {Alert} from 'react-native';
 
 import {BASE_URL} from '../config';
 
@@ -60,9 +61,18 @@ export const AuthProvider = ({children}) => {
     AsyncStorage.removeItem('userToken');
   };
 
+  const soon = () => {
+    Alert.alert('Segera hadir', 'Fitur ini masih dalam tahap pengembangan!', [
+      {
+        text: 'Oke',
+        style: 'cancel',
+      },
+    ]);
+  };
+
   return (
     <AuthContext.Provider
-      value={{session, logout, isLoading, userToken, userProfile}}>
+      value={{session, logout, isLoading, userToken, userProfile, soon}}>
       {children}
     </AuthContext.Provider>
   );

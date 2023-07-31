@@ -34,7 +34,7 @@ const color = [
 
 const Home = () => {
   const navigation = useNavigation();
-  const {userToken} = useContext(AuthContext);
+  const {userToken, soon} = useContext(AuthContext);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Home = () => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
-      <Header title="Serene Mind" btnLeft="disabled" btnRight={() => test()} />
+      <Header title="Serene Mind" btnLeft="disabled" btnRight={() => soon()} />
       <View style={{flex: 1, justifyContent: 'center'}}>
         <ScrollView style={{padding: 20}}>
           <Text style={styles.sectionTitle}>Obrolan Suara</Text>

@@ -8,7 +8,7 @@ import Header from '../components/Header';
 
 const Profile = () => {
   const navigation = useNavigation();
-  const {logout, userProfile} = useContext(AuthContext);
+  const {logout, userProfile, soon} = useContext(AuthContext);
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
       <Header title="Profil" btnLeft="disabled" btnRight="disabled" />
@@ -27,21 +27,24 @@ const Profile = () => {
       <View style={{padding: 20, justifyContent: 'center'}}>
         <TouchableOpacity
           style={styles.listMenu}
-          onPress={() => navigation.navigate('EditProfile')}>
+          // onPress={() => navigation.navigate('EditProfile')}
+          onPress={() => soon()}>
           <Icon name="account-edit" size={20} color={'#7286D3'} />
           <Text style={styles.listMenuText}>Edit Profil</Text>
           <Icon name="chevron-right" size={20} color={'#313131'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.listMenu}
-          onPress={() => navigation.navigate('Settings')}>
+          // onPress={() => navigation.navigate('Settings')}
+          onPress={() => soon()}>
           <Icon name="cog" size={20} color={'#7286D3'} />
           <Text style={styles.listMenuText}>Pengaturan Aplikasi</Text>
           <Icon name="chevron-right" size={20} color={'#313131'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.listMenu}
-          onPress={() => navigation.navigate('Help')}>
+          // onPress={() => navigation.navigate('Help')}
+          onPress={() => soon()}>
           <Icon name="help-circle" size={20} color={'#7286D3'} />
           <Text style={styles.listMenuText}>Bantuan</Text>
           <Icon name="chevron-right" size={20} color={'#313131'} />

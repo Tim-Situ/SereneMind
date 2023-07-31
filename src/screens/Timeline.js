@@ -22,7 +22,7 @@ import Date from '../components/Date';
 
 const Timeline = () => {
   const navigation = useNavigation();
-  const {userToken} = useContext(AuthContext);
+  const {userToken, soon} = useContext(AuthContext);
   const [getTimeline, setGettimeline] = useState([]);
   const [description, setDescription] = useState('');
   const [refreshing, setRefreshing] = useState(false);
@@ -126,7 +126,8 @@ const Timeline = () => {
           backgroundColor: 'white',
           flexDirection: 'row',
           justifyContent: 'center',
-        }}>
+        }}
+        onPress={() => soon()}>
         <Image
           style={{marginTop: 2}}
           source={require('../images/camera.png')}
@@ -205,7 +206,8 @@ const Timeline = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginBottom: 15,
-                }}>
+                }}
+                onPress={() => soon()}>
                 <Image
                   style={{marginTop: 2}}
                   source={require('../images/circle-up.png')}
@@ -222,18 +224,19 @@ const Timeline = () => {
                   alignItems: 'center',
                   marginBottom: 15,
                 }}
-                onPress={() =>
-                  navigation.navigate('Comment', {
-                    id: data.id,
-                  })
-                }
+                // onPress={() =>
+                //   navigation.navigate('Comment', {
+                //     id: data.id,
+                //   })
+                // }
+                onPress={() => soon()}
                 key={data.id}>
                 <Image
                   style={{marginTop: 2}}
                   source={require('../images/comment.png')}
                 />
                 <Text style={{color: '#7286D3', marginHorizontal: 10}}>
-                  0 Komen
+                  0 Komentar
                 </Text>
               </TouchableOpacity>
             </View>
