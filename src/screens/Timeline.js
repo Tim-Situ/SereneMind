@@ -43,7 +43,7 @@ const Timeline = () => {
         },
       )
       .then(res => {
-        console.log(res.data);
+        // handle response
       })
       .catch(err => {
         //handle error
@@ -65,8 +65,7 @@ const Timeline = () => {
   const fetchTimeLine = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/all-posts`);
-      console.log(res.data.response);
-      setGettimeline(res.data.response.reverse());
+      setGettimeline(res.data.data);
     } catch (error) {
       // handle error
     }
@@ -92,7 +91,6 @@ const Timeline = () => {
     Alert.alert('Hapus', 'Yakin menghapus komentar?', [
       {
         text: 'Batal',
-        onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       {text: `Hapus`, onPress: () => DeleteTimeline(id)},
