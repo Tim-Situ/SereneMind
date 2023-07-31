@@ -18,15 +18,15 @@ const Personalize = ({route}) => {
   const {userToken, userProfile} = useContext(AuthContext);
   const {mode} = route.params;
   const [items, setItems] = useState([
-    {uri: require('../images/cemas.png')},
-    {uri: require('../images/depresi.png')},
-    {uri: require('../images/stress.png')},
-    {uri: require('../images/kehilangan.png')},
-    {uri: require('../images/sendiri.png')},
-    {uri: require('../images/hubungan.png')},
-    {uri: require('../images/trauma.png')},
-    {uri: require('../images/masalah.png')},
-    {uri: require('../images/tidur.png')},
+    // {uri: require('../images/cemas.png')},
+    {uri: require('../images/depresi.png'), no: 3},
+    {uri: require('../images/stress.png'), no: 4},
+    // {uri: require('../images/kehilangan.png')},
+    // {uri: require('../images/sendiri.png')},
+    // {uri: require('../images/hubungan.png')},
+    {uri: require('../images/trauma.png'), no: 5},
+    // {uri: require('../images/masalah.png')},
+    // {uri: require('../images/tidur.png')},
   ]);
   const [selected, setSelected] = useState(-1);
 
@@ -92,7 +92,7 @@ const Personalize = ({route}) => {
             renderItem={({item}) => (
               <TouchableOpacity
                 style={[styles.defaultCard, {height: 120}]}
-                onPress={() => setSelected(3)}>
+                onPress={() => setSelected(item.no)}>
                 <ImageBackground
                   source={item.uri}
                   resizeMode="cover"
