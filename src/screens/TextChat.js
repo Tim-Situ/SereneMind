@@ -68,59 +68,63 @@ const TextChat = ({route}) => {
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
       <Header title="Obrolan Teks" btnLeft="enabled" btnRight="disabled" />
-      <GiftedChat
-        messages={messages}
-        renderAvatar={() => {}}
-        scrollToBottom={true}
-        alwaysShowSend={true}
-        renderLoading={() => (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>Memuat chat...</Text>
-            <Text>
-              TIPS: Jika pesan lama dimuat silahkan kembali ke menu lalu coba
-              lagi.
-            </Text>
-          </View>
-        )}
-        textInputStyle={styles.defaultInput}
-        onSend={messages => onSend(messages)}
-        user={{
-          _id: userProfile.id,
-          name: userProfile.name,
-        }}
-        renderBubble={props => {
-          return (
-            <Bubble
-              {...props}
-              textStyle={styles.bubbleText}
-              wrapperStyle={styles.bubbleWrapper}
-            />
-          );
-        }}
-        renderComposer={props => {
-          return (
-            <View style={{flexDirection: 'row'}}>
-              <View style={{justifyContent: 'center'}}>
-                <TouchableOpacity style={{marginLeft: 10}}>
-                  <View
-                    style={[styles.btnSubmit, {backgroundColor: '#ffffff'}]}>
-                    <Icon name="microphone" size={20} color={'#7286D3'} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <Composer {...props} />
-              <Send {...props}>
-                <View style={{marginRight: 10}}>
-                  <View style={styles.btnSubmit}>
-                    <Icon name="send" size={20} color={'#ffffff'} />
-                  </View>
-                </View>
-              </Send>
+      {messages.length != 0 ? (
+        <GiftedChat
+          messages={messages}
+          renderAvatar={() => {}}
+          scrollToBottom={true}
+          alwaysShowSend={true}
+          renderLoading={() => (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text>Memuat chat...</Text>
+              <Text>
+                TIPS: Jika pesan lama dimuat silahkan kembali ke menu lalu coba
+                lagi.
+              </Text>
             </View>
-          );
-        }}
-      />
+          )}
+          textInputStyle={styles.defaultInput}
+          onSend={messages => onSend(messages)}
+          user={{
+            _id: userProfile.id,
+            name: userProfile.name,
+          }}
+          renderBubble={props => {
+            return (
+              <Bubble
+                {...props}
+                textStyle={styles.bubbleText}
+                wrapperStyle={styles.bubbleWrapper}
+              />
+            );
+          }}
+          renderComposer={props => {
+            return (
+              <View style={{flexDirection: 'row'}}>
+                <View style={{justifyContent: 'center'}}>
+                  <TouchableOpacity style={{marginLeft: 10}}>
+                    <View
+                      style={[styles.btnSubmit, {backgroundColor: '#ffffff'}]}>
+                      <Icon name="microphone" size={20} color={'#7286D3'} />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <Composer {...props} />
+                <Send {...props}>
+                  <View style={{marginRight: 10}}>
+                    <View style={styles.btnSubmit}>
+                      <Icon name="send" size={20} color={'#ffffff'} />
+                    </View>
+                  </View>
+                </Send>
+              </View>
+            );
+          }}
+        />
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 };

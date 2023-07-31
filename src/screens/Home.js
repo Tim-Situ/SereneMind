@@ -58,6 +58,34 @@ const Home = () => {
     return color[Math.floor(Math.random() * 10)];
   };
 
+  const newMessage = options => {
+    axios
+      .post(
+        `${BASE_URL}/chat`,
+        {
+          category_id: 5,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userToken}`,
+          },
+        },
+      )
+      .then(res => {
+        if (options == 'Text') {
+          navigation.navigate('TextChat', {id: res.data.data.id});
+        }
+        if (options == 'Voice') {
+          navigation.navigate('VoiceChat', {id: res.data.data.id});
+        }
+      })
+      .catch(err => {
+        // handle error
+        console.log(err);
+      });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F7'}}>
       <Header title="Serene Mind" btnLeft="disabled" btnRight={() => test()} />
@@ -88,7 +116,7 @@ const Home = () => {
             </View>
             <TouchableOpacity
               style={styles.btnStartTextChat}
-              onPress={() => navigation.navigate('TextChat')}>
+              onPress={() => newMessage('Text')}>
               <Text style={{color: '#FFFFFF'}}>Mulai Obrolan Baru</Text>
             </TouchableOpacity>
           </View>
